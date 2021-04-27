@@ -50,6 +50,7 @@ ExecStart=/root/TGS/bin/$projectName/$projectName \
 
 [Install]
 WantedBy=multi-user.target
+EOF
 
 cat /root/TGS/data.json | jq '. + [{"projectName": "'$projectName'","projectChain": "'$projectChain'","projectWsPort": "'$projectWsPort'","projectPort": "'$projectPort'","projectRpcPort": "'$projectRpcPort'"}]' >/root/TGS/data.json
 
