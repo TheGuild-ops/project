@@ -46,7 +46,7 @@ ExecStart=/root/TGS/bin/$projectName/$projectName \
  --port=$projectPort \
  --ws-port=$projectWsPort \
  --rpc-port=$projectRpcPort \
- --name "$(cat /root/TGS/data.json | jq ".[0].name")"
+ --name $(cat /root/TGS/data.json | jq ".[0].name")
 
 [Install]
 WantedBy=multi-user.target
