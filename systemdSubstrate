@@ -1,0 +1,21 @@
+[Unit]
+Description=$projectName node service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=root
+Type=simple
+WorkingDirectory=/root/TGS/bin/$projectName/
+Restart=always
+RestartSec=10
+ExecStart=/root/TGS/bin/$projectName/$projectName \
+ --chain $projectChain \
+ --validator \
+ --port=$projectPort \
+ --ws-port=$projectWsPort \
+ --rpc-port=$projectRpcPort \
+ --name "$projectName"
+
+[Install]
+WantedBy=multi-user.target
