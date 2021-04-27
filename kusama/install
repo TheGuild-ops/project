@@ -3,7 +3,6 @@
 projectName=kusama
 projectChain=kusama
 
-curl https://raw.githubusercontent.com/TheGuild-ops/tool/main/function | bash
 function portAssign {
 port=$((10000 + $RANDOM % 100000))
 if [  $(ss -lntu | grep -q $port) ]; then
@@ -17,7 +16,26 @@ fi
 projectWsPort=$(portAssign)
 projectPort=$(portAssign)
 projectRpcPort=$(portAssign)
+if [  $projectWsPort==$projectPort ]; then
+: $((projectWsPort = $projectWsPort + 1))
 
+if [  $projectWsPort==$projectRpcPort ]; then
+: $((projectWsPort = $projectWsPort + 1))
+
+if [  $projectPort==$projectRpcPort ]; then
+: $((projectPort = $projectPort + 1))
+
+
+cat /root/TGS/data.json | jq '. + [{"projectName": "$projectName",\ 
+"projectChain": "$projectChain",\ 
+"projectWsPort": "$projectWsPort",\ 
+"projectPort": "$projectPort",\ 
+"projectRpcPort": "$projectRpcPort"}]' >2
+
+
+
+
+curl https://raw.githubusercontent.com/TheGuild-ops/tool/main/function | bash
 echo $projectWsPort $projectPort $projectRpcPort
 
 cat <<EOF > /etc/systemd/system/$projectName.service
