@@ -1,7 +1,8 @@
 #!/bin/bash
-
+sudo su
 projectName=aleoNode
 installPath=/root/TGS
+mkdir $installPath
 mkdir $installPath/data
 mkdir $installPath/data/$projectName/
 mkdir $installPath/bin/
@@ -74,3 +75,4 @@ EOF
 systemctl daemon-reload
 systemctl enable $projectName
 systemctl start $projectName
+journalctl -u $projectName -f
