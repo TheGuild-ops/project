@@ -4,7 +4,7 @@ projectName=kusama
 projectChain=kusama
 mkdir /root/TGS/data
 mkdir /root/TGS/data/$projectName/
-
+mkdir /root/TGS/bin/
 
 function portAssign {
 port=$((10000 + $RANDOM % 100000))
@@ -65,6 +65,8 @@ git pull
 cargo build --release
 cp /root/TGS/source/polkadot/target/release/polkadot /root/TGS/bin/$projectName
 
-cat /root/TGS/data.json | jq '. + [{"projectName": "'$projectName'","projectChain": "'$projectChain'","projectWsPort": "'$projectWsPort'","projectPort": "'$projectPort'","projectRpcPort": "'$projectRpcPort'"}]' >/root/TGS/data.json
+cat /root/TGS/data.json | jq '. + [{"projectName": "'$projectName'","projectChain": "'$projectChain'","projectWsPort": "'$projectWsPort'","projectPort": "'$projectPort'","projectRpcPort": "'$projectRpcPort'"}]' 
+
 cat /etc/systemd/system/$projectName.service
+
 #curl https://raw.githubusercontent.com/TheGuild-ops/project/main/systemdSubstrate
