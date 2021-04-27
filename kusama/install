@@ -1,0 +1,22 @@
+#!/bin/bash
+
+projectName=kusama
+projectChain=kusama
+
+function portAssign {
+port=$((10000 + $RANDOM % 100000))
+if [  $(ss -lntu | grep -q $port) ]; then
+ echo $port
+ portAssign
+else
+echo $port
+fi
+}
+
+projectWsPort=$(portAssign)
+projectPort=$(portAssign)
+projectRpcPort=$(portAssign)
+
+echo $projectWsPort $projectPort $projectRpcPort
+
+#curl https://raw.githubusercontent.com/TheGuild-ops/project/main/systemdSubstrate
