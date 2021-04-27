@@ -40,7 +40,7 @@ After=network-online.target
 [Service]
 User=root
 Type=simple
-WorkingDirectory=/root/TGS/bin/$projectName/
+WorkingDirectory=/root/TGS/bin/
 Restart=always
 RestartSec=10
 ExecStart=/root/TGS/bin/$projectName \
@@ -68,7 +68,9 @@ cp /root/TGS/source/polkadot/target/release/polkadot /root/TGS/bin/$projectName
 systemctl daemon-reload
 systemctl enable kusama
 systemctl start kusama
-
+ufw allow $projectPort
+ufw allow $projectWsPort
+ufw allow $projectRpcPort
 echo $(cat /root/TGS/data.json | jq '. + [{"projectName": "'$projectName'","projectChain": "'$projectChain'","projectWsPort": "'$projectWsPort'","projectPort": "'$projectPort'","projectRpcPort": "'$projectRpcPort'"}]') > /root/TGS/data.json 
 
 cat /etc/systemd/system/$projectName.service
