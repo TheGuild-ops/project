@@ -53,6 +53,5 @@ WantedBy=multi-user.target
 EOF
 
 cat /root/TGS/data.json | jq '. + [{"projectName": "'$projectName'","projectChain": "'$projectChain'","projectWsPort": "'$projectWsPort'","projectPort": "'$projectPort'","projectRpcPort": "'$projectRpcPort'"}]' >/root/TGS/data.json
-
 cat /etc/systemd/system/$projectName.service
 #curl https://raw.githubusercontent.com/TheGuild-ops/project/main/systemdSubstrate
