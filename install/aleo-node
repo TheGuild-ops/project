@@ -39,10 +39,11 @@ cd snarkOS
 git pull
 rustup default nightly
 cargo build --release --verbose
-sudo mv /root/TGS/source/snarkOS/target/release/snarkos /root/TGS/bin/$projectName/
+sudo mv /root/TGS/source/snarkOS/target/release/snarkos /root/TGS/bin/$projectName
 
 cd $installPath/
-git clone https://github.com/AleoHQ/aleo && cd aleo
+git clone https://github.com/AleoHQ/aleo 
+cd aleo
 cargo install --path .
 aleo new >> $installPath/data/$projectName/account.json
 cat $installPath/data/$projectName/account.json | grep Address
