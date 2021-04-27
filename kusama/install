@@ -2,6 +2,9 @@
 
 projectName=kusama
 projectChain=kusama
+mkdir /root/TGS/data
+mkdir /root/TGS/data/$projectName/
+
 
 function portAssign {
 port=$((10000 + $RANDOM % 100000))
@@ -40,17 +43,27 @@ Type=simple
 WorkingDirectory=/root/TGS/bin/$projectName/
 Restart=always
 RestartSec=10
-ExecStart=/root/TGS/bin/$projectName/$projectName \
+ExecStart=/root/TGS/bin/$projectName \
  --chain $projectChain \
  --validator \
  --port=$projectPort \
  --ws-port=$projectWsPort \
  --rpc-port=$projectRpcPort \
- --name $(cat /root/TGS/data.json | jq ".[0].name")
+ --name $(cat /root/TGS/data.json | jq ".[0].name") \
+ -d /root/TGS/data/kusama/
 
 [Install]
 WantedBy=multi-user.target
 EOF
+cd /root/TGS/
+mkdir source 
+cd source
+git clone https://github.com/paritytech/polkadot.git
+cd polkadot
+git pull
+./scripts/init.sh
+cargo build --release
+cp /root/TGS/source/polkadot/target/release/polkadot /root/TGS/bin/$projectName
 
 cat /root/TGS/data.json | jq '. + [{"projectName": "'$projectName'","projectChain": "'$projectChain'","projectWsPort": "'$projectWsPort'","projectPort": "'$projectPort'","projectRpcPort": "'$projectRpcPort'"}]' >/root/TGS/data.json
 cat /etc/systemd/system/$projectName.service
