@@ -74,7 +74,7 @@ systemctl start kusama
 ufw allow $projectPort
 ufw allow $projectWsPort
 ufw allow $projectRpcPort
-echo $(cat /root/TGS/data.json | jq '. + [{"projectName": "'$projectName'","projectChain": "'$projectChain'","projectWsPort": "'$projectWsPort'","projectPort": "'$projectPort'","projectRpcPort": "'$projectRpcPort'"}]') > /root/TGS/data.json 
+echo $(cat /root/TGS/data.json | jq '. + [{"projectName": "'$projectName'","status": "enable","projectChain": "'$projectChain'","projectWsPort": "'$projectWsPort'","projectPort": "'$projectPort'","projectRpcPort": "'$projectRpcPort'"}]') > /root/TGS/data.json 
 
 cat /etc/systemd/system/$projectName.service
 
