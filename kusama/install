@@ -63,10 +63,13 @@ cd polkadot
 git pull
 ./scripts/init.sh
 cargo build --release
+systemctl stop kusama
 cp /root/TGS/source/polkadot/target/release/polkadot /root/TGS/bin/$projectName
+systemctl daemon-reload
+systemctl enable kusama
+systemctl start kusama
 
-cat /root/TGS/data.json | jq '. + [{"projectName": "'$projectName'","projectChain": "'$projectChain'","projectWsPort": "'$projectWsPort'","projectPort": "'$projectPort'","projectRpcPort": "'$projectRpcPort'"}]' 
+echo $(cat /root/TGS/data.json | jq '. + [{"projectName": "'$projectName'","projectChain": "'$projectChain'","projectWsPort": "'$projectWsPort'","projectPort": "'$projectPort'","projectRpcPort": "'$projectRpcPort'"}]') > /root/TGS/data.json 
 
 cat /etc/systemd/system/$projectName.service
 
-#curl https://raw.githubusercontent.com/TheGuild-ops/project/main/systemdSubstrate
