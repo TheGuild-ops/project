@@ -45,7 +45,7 @@ cd $installPath/
 git clone https://github.com/AleoHQ/aleo 
 cd aleo
 cargo install --path .
-aleo new >> $installPath/data/$projectName/account.json
+aleo new > $installPath/data/$projectName/account.json
 cat $installPath/data/$projectName/account.json | grep Address
 export ALEO_ADDRESS=$(cat $installPath/data/$projectName/account.json | awk '/Address/ {print $2}')
 
@@ -56,6 +56,7 @@ cat <<EOF > /etc/systemd/system/$projectName.service
 Description=$projectName node service
 Wants=network-online.target
 After=network-online.target
+
 [Service]
 User=root
 Type=simple
@@ -69,7 +70,6 @@ LimitNOFILE=10000
 [Install]
 WantedBy=multi-user.target
 EOF
-
 
 systemctl daemon-reload
 systemctl enable $projectName
