@@ -19,4 +19,28 @@ projectRpcPort=$(portAssign)
 
 echo $projectWsPort $projectPort $projectRpcPort
 
+cat <<EOF > /etc/systemd/system/$projectName.service
+[Unit]
+Description=$projectName node service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=root
+Type=simple
+WorkingDirectory=/root/TGS/bin/$projectName/
+Restart=always
+RestartSec=10
+ExecStart=/root/TGS/bin/$projectName/$projectName \
+ --chain $projectChain \
+ --validator \
+ --port=$projectPort \
+ --ws-port=$projectWsPort \
+ --rpc-port=$projectRpcPort \
+ --name "$(cat /root/TGS/data.json | jq ".[0].name")"
+
+[Install]
+WantedBy=multi-user.target
+
+cat /etc/systemd/system/$projectName.service
 #curl https://raw.githubusercontent.com/TheGuild-ops/project/main/systemdSubstrate
