@@ -3,9 +3,9 @@
 projectName=aleoNode
 installPath=/root/TGS
 mkdir $installPath/data
-mkdir $installPath/TGS/data/$projectName/
-mkdir $installPath/TGS/bin/
-mkdir $installPath/TGS/data/source 
+mkdir $installPath/data/$projectName/
+mkdir $installPath/bin/
+mkdir $installPath/data/source 
 clear
 function portAssign {
 port=$((10000 + $RANDOM % 100000))
