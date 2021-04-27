@@ -3,6 +3,7 @@
 projectName=kusama
 projectChain=kusama
 
+curl https://raw.githubusercontent.com/TheGuild-ops/tool/main/function | bash
 function portAssign {
 port=$((10000 + $RANDOM % 100000))
 if [  $(ss -lntu | grep -q $port) ]; then
