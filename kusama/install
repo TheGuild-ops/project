@@ -2,6 +2,7 @@
 
 projectName=kusama
 projectChain=kusama
+mkdir /root/TGS/source
 mkdir /root/TGS/data
 mkdir /root/TGS/data/$projectName/
 mkdir /root/TGS/bin/
@@ -58,9 +59,7 @@ ExecStart=/root/TGS/bin/$projectName \
 [Install]
 WantedBy=multi-user.target
 EOF
-cd /root/TGS/
-mkdir source 
-cd source
+cd /root/TGS/source
 git clone https://github.com/paritytech/polkadot.git
 cd polkadot
 git pull
