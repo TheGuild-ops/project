@@ -1,0 +1,32 @@
+echo 'enter moniker'
+read EVMOS_NODENAME
+echo 'enter pas'
+read pas
+cd $HOME
+rm -r evmos
+git clone https://github.com/tharsis/evmos.git
+cd evmos
+git checkout v0.2.0
+make install
+cd
+EVMOS_CHAIN=evmos_9000-2
+EVMOS_WALLET="usr"
+echo 'export EVMOS_CHAIN='$EVMOS_CHAIN >> $HOME/.bash_profile
+echo 'export EVMOS_NODENAME='${EVMOS_NODENAME} >> $HOME/.bash_profile
+echo 'export EVMOS_WALLET='${EVMOS_WALLET} >> $HOME/.bash_profile
+source $HOME/.bash_profile
+rm $HOME/.evmosd/config/genesis.json
+rm -r .evmosd
+evmosd init ${EVMOS_NODENAME} --chain-id $EVMOS_CHAIN
+evmosd keys add $EVMOS_WALLET
+rm $HOME/${EVMOS_NODENAME}.json  
+echo $pas | evmosd add-genesis-account $(evmosd keys show $EVMOS_WALLET -a) 1000000000000aphoton
+echo $pas | evmosd gentx $EVMOS_WALLET 1000000000000aphoton \
+  --commission-rate=0.1 \
+  --commission-max-rate=1 \
+  --commission-max-change-rate=0.1 \
+  --pubkey $(evmosd tendermint show-validator) \
+  --chain-id=$EVMOS_CHAIN \
+  --moniker="${EVMOS_NODENAME}" \
+  --output-document $HOME/${EVMOS_NODENAME}.json  
+cat $HOME/${EVMOS_NODENAME}.json
