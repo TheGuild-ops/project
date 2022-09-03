@@ -1,0 +1,32 @@
+sudo apt update && sudo apt upgrade -y && \
+sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony liblz4-tool -y
+wget https://golang.org/dl/go1.18.3.linux-amd64.tar.gz; \
+rm -rv /usr/local/go; \
+tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz && \
+rm -v go1.18.3.linux-amd64.tar.gz && \
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile && \
+source ~/.bash_profile && \
+go version > /dev/null
+cd $HOME && git clone https://github.com/haqq-network/haqq && \
+cd haqq && \
+make install && \
+haqqd version
+echo "Enter Moniker name"
+read MONIKER
+
+haqqd init $MONIKER --chain-id haqq_54211-2 && \
+haqqd config chain-id haqq_54211-2
+haqqd keys add usr
+haqqd add-genesis-account usr 10000000000000000000aISLM
+haqqd gentx usr 10000000000000000000aISLM \
+--chain-id=haqq_54211-2 \
+--moniker=$MONIKER \
+--commission-max-change-rate 0.05 \
+--commission-max-rate 0.20 \
+--commission-rate 0.05 \
+--website="" \
+--security-contact="" \
+--identity="" \
+--details=""
+cat /.haqqd/config/gentx/gentx-*
+haqqd tendermint unsafe-reset-all
