@@ -13,7 +13,7 @@ make install && \
 haqqd version
 echo "Enter Moniker name"
 read MONIKER
-
+haqqd tendermint unsafe-reset-all
 haqqd init $MONIKER --chain-id haqq_54211-2 && \
 haqqd config chain-id haqq_54211-2
 haqqd keys add usr
@@ -28,5 +28,5 @@ haqqd gentx usr 10000000000000000000aISLM \
 --security-contact="" \
 --identity="" \
 --details=""
-cat /.haqqd/config/gentx/gentx-*
-haqqd tendermint unsafe-reset-all
+cat /root/.haqqd/config/gentx/gentx-*
+
